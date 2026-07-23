@@ -1,0 +1,43 @@
+def stock_tracker():
+    # Hardcoded dictionary of stock prices
+    stock_prices = {
+        "AAPL": 180.50,
+        "GOOGL": 140.20,
+        "MSFT": 330.10,
+        "TSLA": 210.80
+    }
+
+    print("Available stocks:", ", ".join(stock_prices.keys()))
+    total_investment = 0.0
+
+    while True:
+        stock_name = input("Enter stock symbol (or 'done' to finish): ").upper().strip()
+        
+        if stock_name == 'DONE':
+            break
+
+        if stock_name in stock_prices:
+            try:
+                quantity = int(input(f"Enter quantity for {stock_name}: "))
+                if quantity < 0:
+                    print("Quantity cannot be negative.")
+                    continue
+                    
+                cost = stock_prices[stock_name] * quantity
+                total_investment += cost
+                print(f"Added {quantity} shares of {stock_name}. Current total: ${total_investment:.2f}")
+                
+            except ValueError:
+                print("Invalid quantity. Please enter a whole number.")
+        else:
+            print("Stock not found in our database. Try again.")
+
+    print(f"\nFinal Total Investment Value: ${total_investment:.2f}")
+    
+    # Optional: Save to file
+    with open("portfolio_summary.txt", "w") as file:
+        file.write(f"Total Investment Value: ${total_investment:.2f}\n")
+    print("Summary saved to portfolio_summary.txt")
+
+if __name__ == "__main__":
+    stock_tracker()
